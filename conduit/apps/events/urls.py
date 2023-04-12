@@ -17,4 +17,6 @@ urlpatterns = [
     path('events/<int:event_id>/buy_ticket/', views.buy_ticket, name='buy_ticket'),
     path('organizer/create/', views.create_organizer, name='create_organizer'),
     #path('api/', include(('conduit.apps.events.urls', 'events'), namespace='events')),
+    #path('api/', include(('conduit.apps.events.urls', 'events'), namespace='events')),
 ]
+

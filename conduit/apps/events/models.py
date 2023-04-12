@@ -9,7 +9,7 @@ from django.core.files import File
 class Event(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    location = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, default='unknown')
     date = models.DateTimeField()
     city = models.CharField(max_length=100)
     organizer = models.ForeignKey('Organizer', on_delete=models.CASCADE)
@@ -36,6 +36,6 @@ class Ticket(models.Model):
 
 class Organizer(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,default='unknown')
     events = models.ManyToManyField('Event', related_name='organizers')
 

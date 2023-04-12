@@ -4,7 +4,7 @@ from .serializers import EventSerializer, TicketSerializer, OrganizerSerializer
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, EventForm, TicketForm, OrganizerForm
+from .forms import OrganizerForm
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -22,7 +22,7 @@ class OrganizerViewSet(viewsets.ModelViewSet):
     serializer_class = OrganizerSerializer
 
 def event_list(request):
-    = request.GET.get('city')
+    query = request.GET.get('city')
     if query:
         events = Event.objects.filter(location__icontains=query)
     else:
