@@ -1,0 +1,17 @@
+
+{% extends 'events/base.html' %}
+
+{% block content %}
+  <h2>Liste des événements</h2>
+  <form method="GET">
+    <input type="text" name="city" placeholder="Rechercher par ville">
+    <button type="submit">Rechercher</button>
+  </form>
+  <ul>
+    {% for event in events %}
+      <li>
+        <a href="{% url 'event_detail' event_id=event.id %}">{{ event.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
