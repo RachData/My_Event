@@ -4,7 +4,8 @@ from .serializers import EventSerializer, TicketSerializer, OrganizerSerializer
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import OrganizerForm
+from .forms import OrganizerForm,EventForm,TicketForm
+from django.urls import reverse
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -64,6 +65,7 @@ def buy_ticket(request, event_id):
             ticket.save()
             messages.success(request, f'Votre billet a été acheté avec succès!')
             return redirect('event_detail', event_id=event.id)
+            
     else:
         form = TicketForm()
     return render(request, 'events/buy_ticket.html', {'form': form, 'event': event})
@@ -75,9 +77,17 @@ def create_organizer(request):
         if form.is_valid():
             organizer = form.save(commit=False)
             organizer.user = request.user
-            organizer.save()
+            existing_organizer = Organizer.objects.filter(user=request.user).first()
+            if existing_organizer:
+                # Si un enregistrement Organizer existe déjà, mettez à jour les informations
+                existing_organizer.name = organizer.name
+                existing_organizer.save()
+            else:
+                # Sinon,
+                organizer.save()
             messages.success(request, f'Votre compte organisateur a été créé avec succès!')
             return redirect('profile')
     else:
         form = OrganizerForm()
     return render(request, 'events/create_organizer.html', {'form': form})
+
